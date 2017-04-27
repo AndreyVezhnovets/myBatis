@@ -1,0 +1,14 @@
+<!DOCTYPE mapper     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.prog.entities.Master">
+    <select id="getMasterByName" parameterType="java.lang.String" resultMap="resMap">
+    SELECT * FROM Master WHERE name = #{name}
+    </select>
+    <resultMap id="resMap" type="com.prog.entities.MasterImpl">
+        <id column="name" property="name"/>
+        <result column="age" property="age"/>
+        <collection property="workerImpls" ofType="com.prog.entities.WorkerImpl" column="name" select="selectWorkersFromMaster"/>
+    </resultMap>
+    <select id="selectWorkersFromMaster" parameterType="java.lang.String" resultType="com.prog.entities.WorkerImpl">
+        SELECT * FROM Worker where master_name = #{name}
+    </select>
+</mapper>
